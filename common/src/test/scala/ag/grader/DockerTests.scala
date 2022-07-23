@@ -2,7 +2,7 @@ package ag.grader
 
 class DockerTests extends munit.FunSuite {
 
-  test("t1") {
+  test("t1".ignore) {
     val config = SimpleConfig(
       gitHost = "linux5",
       gitUser = "git",

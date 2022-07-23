@@ -6,7 +6,7 @@ class GitoliteTests extends FunSuite {
 
   given canThrowShellException: CanThrow[Exception] = compiletime.erasedValue
 
-  test("t1") {
+  test("t1".ignore) {
 
     given world: World = World(
       classOf[Config] -> SimpleConfig(

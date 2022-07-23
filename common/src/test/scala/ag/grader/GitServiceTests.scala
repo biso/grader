@@ -4,7 +4,7 @@ import munit.FunSuite
 
 class GitServiceTests extends FunSuite {
   given canThrowShellException: CanThrow[Exception] = compiletime.erasedValue
-  test("t1") {
+  test("t1".ignore) {
     val t = os.temp.dir(deleteOnExit = true)
 
     given world: World = World(
