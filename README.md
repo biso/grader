@@ -1,3 +1,6 @@
+![example workflow](https://github.com/biso/grader/actions/workflows/scala.yml/badge.svg)
+![example workflow2](https://github.com/biso/grader/actions/workflows/codacy.yml/badge.svg)
+
 ## To run tests
 
 - You need a recent JVM (>= JDK8)
