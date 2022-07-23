@@ -22,9 +22,9 @@ class GitoliteTests extends FunSuite {
 
     val s = GitoliteService.get()
 
-    //val (out,_) = s.info()
-    //val lines = os.read.lines(out)
-    //println(lines.mkString("\n"))
+    // val (out,_) = s.info()
+    // val lines = os.read.lines(out)
+    // println(lines.mkString("\n"))
     List("empty", "grader", "gitolite-admin", "testing").foreach { n =>
       assert(clue(s.info().exists(_.contains(n))))
     }
@@ -33,9 +33,9 @@ class GitoliteTests extends FunSuite {
       assert(clue(s.history().exists(_.contains(n))))
     }
 
-    //println(lines.filter(_.contains("empty")))
+    // println(lines.filter(_.contains("empty")))
 
-    //assert(clue(os.read.lines(out)) == Seq())
+    // assert(clue(os.read.lines(out)) == Seq())
 
   }
 

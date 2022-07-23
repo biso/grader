@@ -13,7 +13,7 @@ import scala.reflect.ClassTag
 
 trait Config {
 
-  //val executor: ExecutorService
+  // val executor: ExecutorService
 
   def counter: AtomicLong
   def criticalCount: AtomicLong
@@ -21,8 +21,8 @@ trait Config {
 
   val threads: Int
 
-  //def gitPort: Int
-  //def gitServer: SshServer
+  // def gitPort: Int
+  // def gitServer: SshServer
 
   def baseDir: os.Path
   def dropBox: os.Path
@@ -42,11 +42,6 @@ trait Config {
 
   def reportDomain: String
   def reportDefaultUser: String
-
-  //def sender: Sender
-
-  //lazy val allCourses: Map[CourseId, Course]
-
 }
 
 case class SimpleConfig(
@@ -55,7 +50,6 @@ case class SimpleConfig(
     gitPort: Int,
     threads: Int,
     optBaseDir: Option[os.Path] = None,
-
     reportDomain: String,
     reportDefaultUser: String
 ) extends Config
@@ -92,7 +86,7 @@ case class SimpleConfig(
   os.makeDir.all(stdOutErr)
   val scratchDir: os.Path = workDir / "scratch"
   os.makeDir.all(scratchDir)
-  //val gitServer: SshServer = SshServer(gitUser, gitHost, gitPort)
+  // val gitServer: SshServer = SshServer(gitUser, gitHost, gitPort)
 
   val counter: AtomicLong = new AtomicLong(0)
 

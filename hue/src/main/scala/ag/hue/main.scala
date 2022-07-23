@@ -13,7 +13,7 @@ object main extends App {
   val sensors = login.flatMap(_.getSensors).sortBy(_.info.name)
   sensors.foreach { s =>
     println("------")
-    println(write(s.info, indent=3))
+    println(write(s.info, indent = 3))
     println(s.info.the_state)
   }
 
@@ -37,16 +37,15 @@ object main extends App {
     Try(blooms.foreach(l => l.setRGB(red, green, blue)))
   }
 
-  //lights.foreach(println)
+  // lights.foreach(println)
 
-  //login.flatMap(_.getRawSensors).foreach(println)
+  // login.flatMap(_.getRawSensors).foreach(println)
 
-  
-  //sensors.map(_.info).collect {
+  // sensors.map(_.info).collect {
   //  case TemperatureSensorInfo(name,_,s : SensorState.Temperature) => name -> s
-  //}.foreach(println)
+  // }.foreach(println)
 
-  //sensors.map(_._2).flatMap(s => Try((s $ "name", s / "config" / "battery", s $ "uniqueid")).toOption).foreach(x => println(write(x,4)))
+  // sensors.map(_._2).flatMap(s => Try((s $ "name", s / "config" / "battery", s $ "uniqueid")).toOption).foreach(x => println(write(x,4)))
 
   /*
   lights.
@@ -57,6 +56,6 @@ object main extends App {
     find(_.info.name == "cs439h-f18").
     map(_.setRGB(0,0,0))
    */
-  //lights.filter(_.info.name.toLowerCase.startsWith("office")).map(_.setRGB(1,1,.7)) //|> (v => pprint.pprintln(v))
+  // lights.filter(_.info.name.toLowerCase.startsWith("office")).map(_.setRGB(1,1,.7)) //|> (v => pprint.pprintln(v))
 
 }

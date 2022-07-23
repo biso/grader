@@ -25,13 +25,14 @@ import language.experimental.saferExceptions
 package object grader {
 
   /* pickle nullable values */
-  given [T:ReadWriter] : ReadWriter[T|Null] = readwriter[ujson.Value].bimap(
+  given [T: ReadWriter]: ReadWriter[T | Null] = readwriter[ujson.Value].bimap(
     v => if (v == null) ujson.Null else writeJs(v),
     js => if (js.isNull) null else read[T](js)
   )
 
   // Takes care of common shell boiler-plate: tracing, logging, error handling, etc
-  def sh(parts: os.Shellable*)(using World, Cwd): (os.Path, os.Path) throws ShellException = {
+  def sh(parts: os.Shellable*)(using World, Cwd): (os.Path, os.Path) throws
+    ShellException = {
     val config = Config.get()
     val c = config.counter.getAndIncrement()
     val out = config.stdOutErr / s"out$c"
@@ -48,7 +49,7 @@ package object grader {
         timeout = 60 * 1000 * 1000
       )
     if (rc.exitCode != 0) {
-      //config.say(s"    [c$c] failed with status ${rc.exitCode}")
+      // config.say(s"    [c$c] failed with status ${rc.exitCode}")
       throw ShellException(c, parts.toList, out, err)
     }
     try {
@@ -116,7 +117,7 @@ package object grader {
 
   def echo[A](s: => A)(using World): Unit = synchronized {
     val config = Config.get()
-    //import config._
+    // import config._
     val c = if (config.criticalCount.get != 0) "*" else " "
     println(s"$c[t${config.threadId.get}] $s")
   }

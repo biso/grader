@@ -4,11 +4,12 @@ import language.experimental.saferExceptions
 
 import scala.util.control.NonFatal
 
-case class KnownRepoException(cause: Exception|Null) extends Exception(cause)
+case class KnownRepoException(cause: Exception | Null) extends Exception(cause)
 
-inline def wrap[T, A <: Exception, B <: Exception](f: => T throws A)(translate: A => B): T throws B =
-  try
-    f
+inline def wrap[T, A <: Exception, B <: Exception](f: => T throws A)(
+    translate: A => B
+): T throws B =
+  try f
   catch
     case e: A =>
       throw translate(e)
@@ -50,7 +51,6 @@ sealed trait KnownRepo {
                   gitolite.fork(r.repoId, repoId)
                   readers.foreach(gitolite.add_reader(repoId, _))
                   writers.foreach(gitolite.add_writer(repoId, _))
-                
 
                   // Let's try to clone it again
                   gitService.clone(repoId)
@@ -59,10 +59,10 @@ sealed trait KnownRepo {
                   populate(dir)
 
                   // commit any changes
-                
+
                   dir.gitAddCommitPush("initial contents")
                 catch
-                  case e: (ShellException|GitoliteException|GitException) =>
+                  case e: (ShellException | GitoliteException | GitException) =>
                     throw KnownRepoException(e)
 
                 postCreate(dir)
@@ -134,7 +134,7 @@ class OverrideRepo(project: Project) extends KnownRepo {
         val dest = dir / path.last
         if (!os.exists(dest)) {
           path.copy(dest)
-          //os.copy(from = path, to = dest, followLinks = false)
+          // os.copy(from = path, to = dest, followLinks = false)
         }
       }
     }

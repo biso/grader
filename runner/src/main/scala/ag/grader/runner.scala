@@ -23,13 +23,15 @@ import scala.collection.SortedSet
   val args = Args().parse(raw_args.toSeq)
   import args._
 
-  //given config: Config = SimpleConfig.load
-  //given MyExecutionContext = MyExecutionContext()
-  //given GitService = SimpleGitService()
-  //given Sender = InvalidSender
+  // given config: Config = SimpleConfig.load
+  // given MyExecutionContext = MyExecutionContext()
+  // given GitService = SimpleGitService()
+  // given Sender = InvalidSender
 
   given World = World()
-  given canThrowShellException: CanThrow[GitException|GitoliteException|KnownRepoException|ShellException] =
+  given canThrowShellException: CanThrow[
+    GitException | GitoliteException | KnownRepoException | ShellException
+  ] =
     compiletime.erasedValue
 
   val config: Config = Config.get()

@@ -14,9 +14,9 @@ import scala.math.Ordering.Implicits.given
 
 @main def reporter(args: String*): Unit = {
 
-  //val send_to: Option[String] = None
+  // val send_to: Option[String] = None
 
-  //given World()
+  // given World()
 
   val what = if (args.isEmpty) "" else args(0)
 
@@ -24,7 +24,9 @@ import scala.math.Ordering.Implicits.given
 
   Given(World()) {
 
-    given canThrowShellException: CanThrow[GitException|GitoliteException|KnownRepoException|ShellException] =
+    given canThrowShellException: CanThrow[
+      GitException | GitoliteException | KnownRepoException | ShellException
+    ] =
       compiletime.erasedValue
 
     val config: Config = Config.get()
@@ -83,7 +85,9 @@ import scala.math.Ordering.Implicits.given
               .getName
               .nn != studentId.toString
           ) {
-            throw new RuntimeException(s"$keyPath is owned by ${os.owner(keyPath)}")
+            throw new RuntimeException(
+              s"$keyPath is owned by ${os.owner(keyPath)}"
+            )
           }
 
           val target = gitoliteDir / "keydir" / s"$studentId.pub"
@@ -196,10 +200,10 @@ import scala.math.Ordering.Implicits.given
       (course.name, students)
     }.toMap
 
-    //os.write.over(
+    // os.write.over(
     //  os.pwd / "enrollment.json",
     //  ujson.write(courseToStudents.transform((_,v) => v.map(_.toString)), indent = 4)
-    //)
+    // )
 
     //////////
     // HTML //
@@ -212,14 +216,14 @@ import scala.math.Ordering.Implicits.given
         val resultsDir = project.resultsDir
         resultsDir.checkTag("report_tag", "") {
 
-
-
           // Get all the outcomes
           val outcomes = os
             .list(resultsDir)
             .filter(os.isDir)
             .filter(!_.last.startsWith("."))
-            .map(p => p.last -> upickle.default.read[OutcomeData]((p / "summary").toNIO))
+            .map(p =>
+              p.last -> upickle.default.read[OutcomeData]((p / "summary").toNIO)
+            )
             .toMap
 
           // Split tests into chosen and non-chosen groups
@@ -407,9 +411,9 @@ import scala.math.Ordering.Implicits.given
           Using(FileContext(f)) { file =>
             /*val h =*/
             html(file) {
-              //head(
+              // head(
               //    script(src = "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" )
-              //),
+              // ),
               body {
                 table {
                   tr(td(h1(text(project.fullName))))
@@ -430,7 +434,7 @@ import scala.math.Ordering.Implicits.given
                     }
                   }
                 }
-                //script.src("highlight_on_click.js")
+                // script.src("highlight_on_click.js")
               }
             }
 
@@ -514,23 +518,21 @@ import scala.math.Ordering.Implicits.given
 
             val subjectLine =
               s"[$nPassGiven/$nGiven:$nPassPeer/$nPeer:${testMark}T:${reportMark}R] ${p
-                .submissionId(s.id)} [c:${commitSha.getOrElse("?").slice(0, 6)}]"
+                  .submissionId(s.id)} [c:${commitSha.getOrElse("?").slice(0, 6)}]"
 
             val reportFile = os.temp()
-
-
 
             reportFile << s"""
                |more information at: https://${config.reportDomain}/~${config.reportDefaultUser}/${p.fullName}.html
                |your alias: $alias
                |your details: git clone ${GitService.url(
-              p.submissionResultsId(s.id)
-            )}
+                              p.submissionResultsId(s.id)
+                            )}
                |all tests: git clone ${GitService.url(p.testsId)}
                |summary for project: git clone ${GitService.url(p.resultsId)}
                |
                |""".stripMargin
-            
+
             commitSha.foreach { sha =>
               os.write.append(reportFile, s"code sha: $sha (git log $sha)\n")
             }

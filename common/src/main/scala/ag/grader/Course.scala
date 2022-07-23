@@ -23,7 +23,7 @@ class Course(
     studentId -> StudentData(studentId, studentName)
   }).toMap
 
-  val projects: List[Project] = (for {
+  lazy val projects: List[Project] = (for {
     (n, d) <- projects_
     if d.active
   } yield Project(n, this, d)).toList.sortBy(_.name)
@@ -55,7 +55,7 @@ class Course(
     case other: Course => name == other.name
     case _             => false
   }
-  //override def toString: String =
+  // override def toString: String =
   //  s"Course($name)"
 
 }

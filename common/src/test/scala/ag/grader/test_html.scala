@@ -63,10 +63,14 @@ class HtmlTests extends FunSuite {
     val ctx = TestContext()
     given HtmlContext = ctx
     simple_table(
-        Seq(text("a"),text("b")),
-        Seq(text("c"),text("d"))
+      Seq(text("a"), text("b")),
+      Seq(text("c"), text("d"))
     )
-    assert(clue(ctx.sb.toString) == clue("+table+tr+td@a-td+td@b-td-tr+tr+td@c-td+td@d-td-tr-table"))
+    assert(
+      clue(ctx.sb.toString) == clue(
+        "+table+tr+td@a-td+td@b-td-tr+tr+td@c-td+td@d-td-tr-table"
+      )
+    )
   }
 
 }

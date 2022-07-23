@@ -15,7 +15,7 @@ case class Light(hue: Hue, id: String, info: LightInfo) derives ReadWriter {
   def setXY(x: Double, y: Double): Value =
     setState("xy" -> List(x, y), "on" -> true)
 
-  //def setHS(id : String, h : Int, s : Int) : Value =
+  // def setHS(id : String, h : Int, s : Int) : Value =
   //  setState("hue" -> h, "sat" -> s, "on" -> true)
 
   def setRGB(r: Double, g: Double, b: Double): Value = if (

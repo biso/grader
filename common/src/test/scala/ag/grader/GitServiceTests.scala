@@ -22,7 +22,7 @@ class GitServiceTests extends FunSuite {
     val config = Config.get()
     val git = GitService.get()
 
-    //given git: GitService = SimpleGitService
+    // given git: GitService = SimpleGitService
 
     val d = config.reposDir / "grader"
     assert(clue(!os.isDir(d)))

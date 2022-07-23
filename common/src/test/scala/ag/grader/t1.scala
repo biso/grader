@@ -9,7 +9,8 @@ import upickle.default._
 
 class StateTests extends FunSuite {
 
-  given canThrowShellException: CanThrow[ShellException] = compiletime.erasedValue
+  given canThrowShellException: CanThrow[ShellException] =
+    compiletime.erasedValue
 
   val worlds = FunFixture[World](
     setup = { test =>
@@ -93,8 +94,8 @@ class TestPickle extends FunSuite {
 
   test("null") {
     import upickle.default._
-    
-    case class Bob(name: String|Null) derives ReadWriter, CanEqual
+
+    case class Bob(name: String | Null) derives ReadWriter, CanEqual
     val b1 = Bob(name = null)
     val bs = write(b1)
     val b2 = read[Bob](bs)

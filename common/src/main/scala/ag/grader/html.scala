@@ -88,7 +88,9 @@ def text(s: String)(using c: HtmlContext): Unit = {
   c.text(s)
 }
 
-def simple_table(elements: Seq[HtmlContext ?=> Unit]*)(using HtmlContext): Unit = {
+def simple_table(
+    elements: Seq[HtmlContext ?=> Unit]*
+)(using HtmlContext): Unit = {
   table {
     elements.foreach { row =>
       tr {

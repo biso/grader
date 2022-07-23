@@ -33,8 +33,10 @@ object Hue {
   val hueDir: Path = os.home / ".hue"
 
   def discover: List[Discover] = {
-    //"https://discovery.meethue.com".get[List[Discover]]
-    List(Discover(id = "001788fffe649974", internalipaddress = "192.168.86.174"))
+    // "https://discovery.meethue.com".get[List[Discover]]
+    List(
+      Discover(id = "001788fffe649974", internalipaddress = "192.168.86.174")
+    )
   }
 
   def login: List[Hue] =

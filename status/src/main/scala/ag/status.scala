@@ -7,7 +7,8 @@ import upickle.default.*
 
 @main def status(): Unit = {
   given World = World()
-  given canThrowShellException: CanThrow[GitException|GitoliteException|ShellException] =
+  given canThrowShellException
+      : CanThrow[GitException | GitoliteException | ShellException] =
     compiletime.erasedValue
   updateRemoteRepos(_ => true)
   val projectNameToLight =
@@ -45,7 +46,7 @@ import upickle.default.*
     }
 
     val all = c.students.keySet.size.toDouble * chosen.size
-    //val all = happy + sad
+    // val all = happy + sad
     val unknown = all - happy - sad
 
     val hr = happy / all

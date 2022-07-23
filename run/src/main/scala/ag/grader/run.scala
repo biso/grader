@@ -9,7 +9,8 @@ import language.experimental.saferExceptions
   }
 
   given World = World()
-  given canThrowShellException: CanThrow[ShellException] = compiletime.erasedValue
+  given canThrowShellException: CanThrow[ShellException] =
+    compiletime.erasedValue
 
   val config: Config = Config.get()
 

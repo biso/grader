@@ -2,15 +2,13 @@ package ag.hue
 
 import upickle.default._
 
-trait SensorState {
-  
-}
+trait SensorState {}
 
 object SensorState {
 
   case class DayLight(
-    daylight: Boolean,
-    lastupdated: String
+      daylight: Boolean,
+      lastupdated: String
   ) extends SensorState
       derives ReadWriter
 
@@ -45,6 +43,5 @@ object SensorState {
       lastupdated: String
   ) extends SensorState
       derives ReadWriter
-
 
 }

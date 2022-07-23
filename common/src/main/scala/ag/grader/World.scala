@@ -16,12 +16,13 @@ import scala.reflect.ClassTag
 class WorldException extends Exception
 
 enum WorldState derives CanEqual {
-  case Open    /* open for lookup and creation */,
-       Closing /* closing, can lookup but not create */,
-       Closed  /* closed, can't do anything with it */
+  case Open /* open for lookup and creation */,
+    Closing /* closing, can lookup but not create */,
+    Closed /* closed, can't do anything with it */
 }
 
-case class BadWorldState(state: WorldState, expected: Seq[WorldState]) extends WorldException
+case class BadWorldState(state: WorldState, expected: Seq[WorldState])
+    extends WorldException
 
 class World(initial: (Any, Any)*) extends AutoCloseable {
   private val data = mutable.Map[Any, Any](initial: _*)

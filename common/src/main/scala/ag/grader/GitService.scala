@@ -2,9 +2,7 @@ package ag.grader
 
 import language.experimental.saferExceptions
 
-case class GitException(cause: Exception) extends Exception(cause) {
-
-}
+case class GitException(cause: Exception) extends Exception(cause) {}
 
 enum ResetMode {
   case SOFT, MIXED, HARD
@@ -14,7 +12,8 @@ trait GitService {
 
   def clone(repoName: String)(using World): os.Path throws GitException
 
-  def reset(dir: os.Path, mode: ResetMode)(using World): Unit throws GitException
+  def reset(dir: os.Path, mode: ResetMode)(using World): Unit throws
+    GitException
 
   def rev_parse(dir: os.Path, label: String | Null): Option[String]
   def rev_parse(label: String | Null)(using Cwd): Option[String] = {
@@ -53,7 +52,12 @@ object SimpleGitService extends GitService {
         sh(
           "git",
           "clone",
-          GitService.url(config.gitUser, config.gitHost, config.gitPort, repoName)
+          GitService.url(
+            config.gitUser,
+            config.gitHost,
+            config.gitPort,
+            repoName
+          )
         )
       } catch {
         case e: ShellException => throw GitException(e)
@@ -62,16 +66,19 @@ object SimpleGitService extends GitService {
     }
   }
 
-  def reset(dir: os.Path, mode: ResetMode)(using World): Unit throws GitException = {
+  def reset(dir: os.Path, mode: ResetMode)(using World): Unit throws
+    GitException = {
     cd(dir) {
       try
-        sh("git", "reset", mode match
-          case ResetMode.SOFT => "--soft"
-          case ResetMode.MIXED => "--mixed"
-          case ResetMode.HARD => "--hard"
+        sh(
+          "git",
+          "reset",
+          mode match
+            case ResetMode.SOFT  => "--soft"
+            case ResetMode.MIXED => "--mixed"
+            case ResetMode.HARD  => "--hard"
         )
-      catch
-        case e: ShellException => throw GitException(e)
+      catch case e: ShellException => throw GitException(e)
     }
   }
 

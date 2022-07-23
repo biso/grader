@@ -141,7 +141,8 @@ extension (file: os.Path) {
       } // keep the ones with the correct length
   }
 
-  def gitAddCommitPush[A](msg: => String)(using World): Boolean throws ShellException = {
+  def gitAddCommitPush[A](msg: => String)(using World): Boolean throws
+    ShellException = {
     cd(file) {
       sh("git", "add", "--all")
       val changed_files = os.read.lines(sh("git", "status", "--porcelain")._1)

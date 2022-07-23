@@ -49,7 +49,7 @@ def run_one(
 
   os.write.over(
     submissionResultsDir / "commit_msg",
-    os.read(cd (repoDir) { sh("git", "log", "-1", "--pretty=%s")._1 })
+    os.read(cd(repoDir) { sh("git", "log", "-1", "--pretty=%s")._1 })
   )
 
   if (hasReport) {
@@ -99,9 +99,11 @@ def run_one(
           os.write(timeFile, f"$minutes:$seconds%02d.$centi%02d")
         }
         echo(
-          s"    [${togo_count.addAndGet(-1)}/$to_run]${if (p.data.docker_file.nonEmpty) "D"
-          else ""} $repoId: $testName ${os.read(resultFile).trim} [${timeFile
-            .read_string("?")}] $isLate"
+          s"    [${togo_count.addAndGet(-1)}/$to_run]${
+              if (p.data.docker_file.nonEmpty) "D"
+              else ""
+            } $repoId: $testName ${os.read(resultFile).trim} [${timeFile
+              .read_string("?")}] $isLate"
         )
         (t, out, err)
       }
@@ -115,7 +117,7 @@ def run_one(
         val fn = s"${testName}.$ext"
         if (os.exists(src)) {
           os.write.over(submissionResultsDir / fn, os.read(src, count = 10000))
-          //src.copy(submissionResultsDir / fn)
+          // src.copy(submissionResultsDir / fn)
         }
       }
 

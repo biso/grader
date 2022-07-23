@@ -2,13 +2,15 @@ package ag.grader
 
 import language.experimental.saferExceptions
 
-case class GitoliteException(cause: Exception|Null) extends Exception(cause)
+case class GitoliteException(cause: Exception | Null) extends Exception(cause)
 
 trait GitoliteService {
 
-  def run(parts: os.Shellable*)(using World): (os.Path, os.Path) throws GitoliteException
+  def run(parts: os.Shellable*)(using World): (os.Path, os.Path) throws
+    GitoliteException
 
-  def fork(from: String, to: String)(using World): (os.Path, os.Path) throws GitoliteException = {
+  def fork(from: String, to: String)(using World): (os.Path, os.Path) throws
+    GitoliteException = {
     run("fork", from, to)
   }
 
@@ -54,7 +56,8 @@ object GitoliteService {
 }
 
 class SimpleGitoliteService extends GitoliteService {
-  override def run(parts: os.Shellable*)(using World): (os.Path, os.Path) throws GitoliteException = {
+  override def run(parts: os.Shellable*)(using World): (os.Path, os.Path) throws
+    GitoliteException = {
     val config = Config.get()
     val sshService = SshService.get()
     try
@@ -64,7 +67,6 @@ class SimpleGitoliteService extends GitoliteService {
         port = Maybe(config.gitPort),
         extra_flags = Seq("-T")
       )(parts: _*)
-    catch
-      case e: SshException => throw GitoliteException(e)
+    catch case e: SshException => throw GitoliteException(e)
   }
 }

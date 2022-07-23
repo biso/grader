@@ -21,7 +21,9 @@ import scala.math.Ordering.Implicits.given
   val projectShortName = args(1)
   val projectName = s"${courseName}_$projectShortName"
 
-  given canThrowShellException: CanThrow[GitException|GitoliteException|KnownRepoException|ShellException] =
+  given canThrowShellException: CanThrow[
+    GitException | GitoliteException | KnownRepoException | ShellException
+  ] =
     compiletime.erasedValue
 
   given World = World()

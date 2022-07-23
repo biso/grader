@@ -3,6 +3,7 @@
 .metals/
 metals.sbt
 .sbt/
+/.staged
 target/
 /.vscode/
 

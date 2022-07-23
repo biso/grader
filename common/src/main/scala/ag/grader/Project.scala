@@ -15,7 +15,7 @@ class Project(val name: String, val course: Course, val data: ProjectData) {
 
   override def equals(other: Any): Boolean = other match {
     case o: Project => fullName == o.fullName
-    case _ => false
+    case _          => false
   }
 
   override def hashCode(): Int = {
@@ -140,7 +140,7 @@ class Project(val name: String, val course: Course, val data: ProjectData) {
 
     // copy from submission
     submission_dir.copy(scratch_dir)
-    //os.copy(from = submission_dir, to = scratch_dir, replaceExisting = false, followLinks = false, createFolders = true)
+    // os.copy(from = submission_dir, to = scratch_dir, replaceExisting = false, followLinks = false, createFolders = true)
 
     // remove all tests
     os.list(scratch_dir).foreach { path =>
@@ -175,22 +175,23 @@ class Project(val name: String, val course: Course, val data: ProjectData) {
   }
 
   /* get the student's alias for this project */
-  def getStudentAlias(s: StudentId)(using World): String throws ShellException = synchronized {
-    if (os.exists(aliasDir / s.toString)) {
-      os.read(aliasDir / s.toString).trim.nn
-    } else {
-      val newIndex = os.list(aliasDir).size
-      val newAlias = f"$newIndex%03d"
-      os.write(aliasDir / s.toString, newAlias)
-      cd(aliasDir) {
-        sh("git", "add", s.toString)
-        sh("git", "commit", "-m", s"added alias for $s")
-        sh("git", "push")
+  def getStudentAlias(s: StudentId)(using World): String throws ShellException =
+    synchronized {
+      if (os.exists(aliasDir / s.toString)) {
+        os.read(aliasDir / s.toString).trim.nn
+      } else {
+        val newIndex = os.list(aliasDir).size
+        val newAlias = f"$newIndex%03d"
+        os.write(aliasDir / s.toString, newAlias)
+        cd(aliasDir) {
+          sh("git", "add", s.toString)
+          sh("git", "commit", "-m", s"added alias for $s")
+          sh("git", "push")
+        }
+        echo(s"$fullName:$s => $newAlias")
+        newAlias
       }
-      echo(s"$fullName:$s => $newAlias")
-      newAlias
     }
-  }
 
   def dockerCommand(workingDir: os.Path)(using World): Seq[String] = {
     data.docker_file.toSeq.flatMap { docker_file_name =>
@@ -211,7 +212,8 @@ class Project(val name: String, val course: Course, val data: ProjectData) {
     }
   }
 
-  def copy_tests(students: Iterable[StudentId])(using World): Unit throws ShellException = {
+  def copy_tests(students: Iterable[StudentId])(using World): Unit throws
+    ShellException = {
     val config = Config.get()
     def copy_one_test(test_name: String, paths: Seq[os.Path]) = {
       val md = MessageDigest.getInstance("MD5").nn
@@ -234,7 +236,7 @@ class Project(val name: String, val course: Course, val data: ProjectData) {
       }
     }
 
-    //val override_sha = overrideDir.git_sha()
+    // val override_sha = overrideDir.git_sha()
 
     overrideDir.checkTag("copied_tests", "") {
       echo(s"    ${overrideDir.last} may have changed")
@@ -254,7 +256,7 @@ class Project(val name: String, val course: Course, val data: ProjectData) {
 
         echo(s"    $repoId may have changed")
 
-        //val studentScratchDir = config.scratchDir / repoId
+        // val studentScratchDir = config.scratchDir / repoId
         val tempDir =
           os.temp.dir(config.scratchDir, "tests", deleteOnExit = false)
 
@@ -305,7 +307,7 @@ class Project(val name: String, val course: Course, val data: ProjectData) {
               }
             }
 
-          //os.remove.all(studentScratchDir)
+          // os.remove.all(studentScratchDir)
 
         }
 

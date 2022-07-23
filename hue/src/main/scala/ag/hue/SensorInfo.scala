@@ -14,7 +14,7 @@ case class SensorInfo(
 
   val the_state: SensorState = {
     `type` match {
-      case "Daylight"          => read[SensorState.DayLight](state)        
+      case "Daylight"          => read[SensorState.DayLight](state)
       case "ZLLTemperature"    => read[SensorState.Temperature](state)
       case "ZLLPresence"       => read[SensorState.Presence](state)
       case "ZLLLightLevel"     => read[SensorState.LightLevel](state)

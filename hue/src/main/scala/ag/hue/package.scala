@@ -35,9 +35,9 @@ package object hue {
 
   }
 
-  //def get[T : Reader](url : String) : T = read[T](requests.get(url).text)
+  // def get[T : Reader](url : String) : T = read[T](requests.get(url).text)
 
-  //def post[T : Reader](url : String) : T = read[T](requests.post(a, data = write(Map("devicetype" -> "app#browser"))).text
+  // def post[T : Reader](url : String) : T = read[T](requests.post(a, data = write(Map("devicetype" -> "app#browser"))).text
 
   // https://www.cs.rit.edu/~ncs/color/API_JAVA/XYZSet.java
 
