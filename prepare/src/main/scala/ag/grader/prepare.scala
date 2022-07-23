@@ -74,13 +74,14 @@ import scala.math.Ordering.Implicits.given
     .list(project.aliasDir)
     .filter(!_.last.startsWith("."))
     .map { path =>
-      val studentId = StudentId(path.last)
+      val studentId = Name[StudentData](path.last)
       val alias = os.read(path).trim.nn
       alias -> studentId
     }
     .toMap
 
-  val studentIdToAlias: Map[StudentId, String] = aliasToStudentId.map(_.swap)
+  val studentIdToAlias: Map[Name[StudentData], String] =
+    aliasToStudentId.map(_.swap)
 
   //////////////////////
   // commits to grade //
@@ -109,7 +110,7 @@ import scala.math.Ordering.Implicits.given
       }
       p.map(_.nn)
     }
-    .map(p => StudentId(p(0).trim.nn) -> p(1).trim.nn)
+    .map(p => Name[StudentData](p(0).trim.nn) -> p(1).trim.nn)
     .toMap
 
   //////////////////////////

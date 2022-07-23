@@ -4,7 +4,7 @@ import upickle.default.write
 
 class StudentIdTests extends munit.FunSuite {
   test("t1") {
-    val s = StudentId("ag")
+    val s = Name[StudentData]("ag")
     write(s) |> println
     write("ag") |> println
     assert(clue(write(s)) == clue("\"ag\""))

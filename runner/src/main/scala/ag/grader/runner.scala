@@ -107,7 +107,7 @@ import scala.collection.SortedSet
     ///////////////////////////////////
 
     val projectsToConsider = {
-      val ps: List[(Project, StudentId)] = for {
+      val ps: List[(Project, Name[StudentData])] = for {
         p <- activeProjects
         projectDir = p.projectDir
         projectSha = projectDir.git_sha()
@@ -210,7 +210,8 @@ import scala.collection.SortedSet
     // Let's add some structure to this list of NeedToRun
     //   - turn it into a 2-level tree: Project => (csid => NeedToRun)
     //   - sort everything
-    val ntr_tree: TreeMap[Project, TreeMap[StudentId, List[NeedToRun]]] =
+    val ntr_tree
+        : TreeMap[Project, TreeMap[Name[StudentData], List[NeedToRun]]] =
       ntr_list
         .groupBy(_.project)
         .transform { (_, ntrs) =>

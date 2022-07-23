@@ -1,11 +1,11 @@
 package ag.grader
 
-import scala.util.Try
-
+/** Universal extensions added to all types
+  */
 extension [A](something: A) {
+
+  /** adds a convenient pipe operator Allows me to write "hello" |> println
+    * instead of println("hello") and a |> f |> g instead of g(f(a))
+    */
   def |>[B](f: A => B): B = f(something)
 }
-
-////extension [A](something: A | Null) {
-//  def opt: Option[A] = if (something != null) Some(something) else None
-//}

@@ -39,14 +39,14 @@ class CourseTests extends FunSuite {
 class CourseIdTests extends ScalaCheckSuite {
   property("wrapping") {
     forAll { (s: String) =>
-      val w = CourseId(s)
+      val w = Name[Course](s)
       assert(clue(w.toString) == clue(s))
     }
   }
   property("compare") {
     forAll { (a: String, b: String) =>
-      val p = CourseId(a)
-      val q = CourseId(b)
+      val p = Name[Course](a)
+      val q = Name[Course](b)
 
       if (a < b) assert(clue(p) < clue(q))
       if (a <= b) assert(clue(p) <= clue(q))
@@ -58,11 +58,11 @@ class CourseIdTests extends ScalaCheckSuite {
   }
   property("json") {
     forAll { (a: String) =>
-      val id = CourseId(a)
+      val id = Name[Course](a)
       val as_json = write(id)
       val as_binary = writeBinary(id)
-      assert(clue(read[CourseId](as_json)) == clue(id))
-      assert(clue(readBinary[CourseId](as_binary)) == clue(id))
+      assert(clue(read[Name[Course]](as_json)) == clue(id))
+      assert(clue(readBinary[Name[Course]](as_binary)) == clue(id))
     }
 
   }
