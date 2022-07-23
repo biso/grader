@@ -29,7 +29,7 @@ case class Args(things: Set[String] = Set(), forceFlag: Boolean = false) {
   def should_force(p: Project): Boolean =
     should_force(p.fullName)
 
-  def should_force(p: Project, csid: Name[StudentData]): Boolean =
+  def should_force(p: Project, csid: Name[Student]): Boolean =
     should_force(p.submissionId(csid))
 
   def should_consider(id: String): Boolean =
@@ -41,7 +41,7 @@ case class Args(things: Set[String] = Set(), forceFlag: Boolean = false) {
   def should_consider(p: Project): Boolean =
     should_consider(p.fullName)
 
-  def should_consider(p: Project, csid: Name[StudentData]): Boolean =
+  def should_consider(p: Project, csid: Name[Student]): Boolean =
     should_consider(p.submissionId(csid))
 
 }

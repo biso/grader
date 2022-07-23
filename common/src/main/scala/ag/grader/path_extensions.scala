@@ -124,7 +124,7 @@ extension (file: os.Path) {
     }
   }
 
-  def get_student_tests(csid: Name[StudentData], p: Project): Seq[os.Path] = {
+  def get_student_tests(csid: Name[Student], p: Project): Seq[os.Path] = {
     val paths = p.data.test_extensions.map(ext => file / s"$csid.$ext")
     if (paths.forall(os.exists)) paths else Seq()
   }

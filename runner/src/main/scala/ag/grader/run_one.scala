@@ -10,7 +10,7 @@ import java.time.ZoneId
 // Run one test
 def run_one(
     p: Project,
-    studentId: Name[StudentData],
+    studentId: Name[Student],
     the_tests: List[NeedToRun],
     togo_count: AtomicInteger,
     to_run: Int

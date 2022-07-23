@@ -6,7 +6,7 @@ trait Sender {
   def send(
       course: Course,
       topic: String,
-      to: Name[StudentData],
+      to: Name[Student],
       subject: String,
       body: os.Path
   )(using World): Unit
@@ -16,7 +16,7 @@ object Sender {
   def send(
       course: Course,
       topic: String,
-      to: Name[StudentData],
+      to: Name[Student],
       subject: String,
       body: os.Path
   )(using World): Unit = get().send(course, topic, to, subject, body)
@@ -31,7 +31,7 @@ object InvalidSender extends Sender {
   def send(
       course: Course,
       topic: String,
-      to: Name[StudentData],
+      to: Name[Student],
       subject: String,
       body: os.Path
   )(using World): Unit = {
@@ -44,7 +44,7 @@ class FileSender(outDir: os.Path) extends Sender {
   def send(
       course: Course,
       topic: String,
-      to: Name[StudentData],
+      to: Name[Student],
       subject: String,
       body: os.Path
   )(using World): Unit = {
@@ -60,7 +60,7 @@ object MailSender extends Sender {
   def send(
       course: Course,
       topic: String,
-      to: Name[StudentData],
+      to: Name[Student],
       subject: String,
       body: os.Path
   )(using World): Unit = {

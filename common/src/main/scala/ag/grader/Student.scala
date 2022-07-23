@@ -2,5 +2,5 @@ package ag.grader
 
 import upickle.default._
 
-case class StudentData(id: Name[StudentData], name: String)
+case class Student(id: Name[Student], name: String)
     derives ReadWriter {}

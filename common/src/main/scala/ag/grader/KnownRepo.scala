@@ -172,7 +172,7 @@ class ResultsRepo(project: Project) extends KnownRepo {
   def postCreate(dir: os.Path)(using World): Unit = ()
 }
 
-class StudentSubmissionRepo(project: Project, student: Name[StudentData])
+class StudentSubmissionRepo(project: Project, student: Name[Student])
     extends KnownRepo {
   def repoId = project.submissionId(student)
   def forkOf = ProjectRepo(project)
@@ -195,7 +195,7 @@ class StudentSubmissionRepo(project: Project, student: Name[StudentData])
   }
 }
 
-class StudentResultsRepo(project: Project, student: Name[StudentData])
+class StudentResultsRepo(project: Project, student: Name[Student])
     extends KnownRepo {
   def repoId = project.submissionResultsId(student)
   def forkOf = EmptyRepo

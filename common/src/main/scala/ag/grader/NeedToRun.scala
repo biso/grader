@@ -2,7 +2,7 @@ package ag.grader
 
 case class NeedToRun(
     project: Project,
-    csid: Name[StudentData],
+    csid: Name[Student],
     test_name: String,
     when_done: () => Any
 )

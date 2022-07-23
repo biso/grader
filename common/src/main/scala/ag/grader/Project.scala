@@ -30,10 +30,10 @@ class Project(val name: String, val course: Course, val data: ProjectData) {
 
   lazy val submission_pattern = s"${fullName}_([^_]*)".r
 
-  def all_students(using World): Seq[Name[StudentData]] = {
+  def all_students(using World): Seq[Name[Student]] = {
     os.list(Config.get().reposDir).flatMap { path =>
       path.last match {
-        case submission_pattern(x) => Seq(Name[StudentData](x))
+        case submission_pattern(x) => Seq(Name[Student](x))
         case _                     => Seq()
       }
     }
@@ -78,22 +78,22 @@ class Project(val name: String, val course: Course, val data: ProjectData) {
   def resultsDir(using World): os.Path =
     Config.get().reposDir / resultsId
 
-  def submissionId(student: Name[StudentData]): String =
+  def submissionId(student: Name[Student]): String =
     s"${fullName}_$student"
 
-  def submissionDir(student: Name[StudentData])(using World): os.Path =
+  def submissionDir(student: Name[Student])(using World): os.Path =
     Config.get().reposDir / submissionId(student)
 
-  def submissionResultsId(student: Name[StudentData]): String =
+  def submissionResultsId(student: Name[Student]): String =
     s"${submissionId(student)}_results"
 
-  def submissionResultsDir(student: Name[StudentData])(using World): os.Path =
+  def submissionResultsDir(student: Name[Student])(using World): os.Path =
     Config.get().reposDir / submissionResultsId(student)
 
-  def scratchDir(student: Name[StudentData])(using World): os.Path =
+  def scratchDir(student: Name[Student])(using World): os.Path =
     Config.get().scratchDir / s"${fullName}_$student"
 
-  def removeScratchDir(csid: Name[StudentData])(using World): Unit = {
+  def removeScratchDir(csid: Name[Student])(using World): Unit = {
     os.remove.all(scratchDir(csid))
   }
 
@@ -126,7 +126,7 @@ class Project(val name: String, val course: Course, val data: ProjectData) {
     }
   }
 
-  def ensureScratchDir(csid: Name[StudentData])(using World): os.Path = {
+  def ensureScratchDir(csid: Name[Student])(using World): os.Path = {
     val dir = scratchDir(csid)
     if (!os.isDir(dir)) {
       createScratchDir(csid)
@@ -134,7 +134,7 @@ class Project(val name: String, val course: Course, val data: ProjectData) {
     dir
   }
 
-  def createScratchDir(student: Name[StudentData])(using World): os.Path = {
+  def createScratchDir(student: Name[Student])(using World): os.Path = {
     val scratch_dir = scratchDir(student)
     val submission_dir = submissionDir(student)
 
@@ -175,7 +175,7 @@ class Project(val name: String, val course: Course, val data: ProjectData) {
   }
 
   /* get the student's alias for this project */
-  def getStudentAlias(s: Name[StudentData])(using World): String throws
+  def getStudentAlias(s: Name[Student])(using World): String throws
     ShellException =
     synchronized {
       if (os.exists(aliasDir / s.toString)) {
@@ -214,7 +214,7 @@ class Project(val name: String, val course: Course, val data: ProjectData) {
   }
 
   def copy_tests(
-      students: Iterable[Name[StudentData]]
+      students: Iterable[Name[Student]]
   )(using World): Unit throws ShellException = {
     val config = Config.get()
     def copy_one_test(test_name: String, paths: Seq[os.Path]) = {

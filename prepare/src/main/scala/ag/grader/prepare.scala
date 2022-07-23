@@ -74,13 +74,13 @@ import scala.math.Ordering.Implicits.given
     .list(project.aliasDir)
     .filter(!_.last.startsWith("."))
     .map { path =>
-      val studentId = Name[StudentData](path.last)
+      val studentId = Name[Student](path.last)
       val alias = os.read(path).trim.nn
       alias -> studentId
     }
     .toMap
 
-  val studentIdToAlias: Map[Name[StudentData], String] =
+  val studentIdToAlias: Map[Name[Student], String] =
     aliasToStudentId.map(_.swap)
 
   //////////////////////
@@ -110,14 +110,14 @@ import scala.math.Ordering.Implicits.given
       }
       p.map(_.nn)
     }
-    .map(p => Name[StudentData](p(0).trim.nn) -> p(1).trim.nn)
+    .map(p => Name[Student](p(0).trim.nn) -> p(1).trim.nn)
     .toMap
 
   //////////////////////////
   // update student repos //
   //////////////////////////
 
-  val students: Seq[StudentData] =
+  val students: Seq[Student] =
     project.course.students.values.toList.sortWith((l, r) => l.id < r.id)
 
   /////////////////////////////////////////////////////////////
@@ -158,7 +158,7 @@ import scala.math.Ordering.Implicits.given
   //////////////////////////////////////////////////////////
 
   echo(s"creating prepared repos")
-  students.foreach { case StudentData(studentId, studentName) =>
+  students.foreach { case Student(studentId, studentName) =>
     val studentPreparedDir = preparedDir / studentId.toString
 
     echo(s" $studentPreparedDir")

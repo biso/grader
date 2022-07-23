@@ -28,15 +28,15 @@ class Course(
   /** a mapping from student id to student data for all students participating
     * in this course
     */
-  lazy val students: Map[Name[StudentData], StudentData] = (for {
+  lazy val students: Map[Name[Student], Student] = (for {
     p <- os.list(enrollmentDir)
     if os.isFile(p)
     last = p.last
     if !last.startsWith(".")
   } yield {
-    val studentId = Name[StudentData](last)
+    val studentId = Name[Student](last)
     val studentName = os.read(p).trim().nn
-    studentId -> StudentData(studentId, studentName)
+    studentId -> Student(studentId, studentName)
   }).toMap
 
   /** a list of all active projects */
@@ -46,7 +46,7 @@ class Course(
   } yield Project(n, this, d)).toList.sortBy(_.name)
 
   /** Where should we send reports for the given student */
-  def send_to(student_id: Name[StudentData]): String = {
+  def send_to(student_id: Name[Student]): String = {
     val config = Config.get()
     val t = if (data.send_to_students) {
       student_id.toString

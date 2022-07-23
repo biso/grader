@@ -79,7 +79,7 @@ import scala.math.Ordering.Implicits.given
         .filter(p => os.isFile(p, followLinks = false))
         .map { keyPath =>
           val studentId =
-            Name[StudentData](keyPath.last.replaceFirst("""\..*""", "").nn)
+            Name[Student](keyPath.last.replaceFirst("""\..*""", "").nn)
           if (
             os.owner(keyPath, followLinks = false)
               .getName
