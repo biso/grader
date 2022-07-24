@@ -4,6 +4,8 @@ import language.experimental.saferExceptions
 
 case class GitoliteException(cause: Exception | Null) extends Exception(cause)
 
+/** Gitolite API
+ */
 trait GitoliteService {
 
   def run(parts: os.Shellable*)(using World): (os.Path, os.Path) throws

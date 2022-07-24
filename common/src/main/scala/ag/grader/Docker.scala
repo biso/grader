@@ -21,11 +21,6 @@ object Docker {
             d <- Maybe(md.digest(bytes))
           } yield d).get()
 
-          // val sha = MessageDigest
-          //  .getInstance("MD5")
-          //  .nn
-          //  .digest(os.read(docker_file).getBytes)
-          //  .nn
           val sha_string = sha.toList.map(b => f"$b%02x").mkString
           val image_name = s"grader:$sha_string"
 
