@@ -222,7 +222,7 @@ class Project(val name: String, val course: Course, val data: ProjectData) {
       for {
         p <- paths.sortBy(_.last)
       } {
-        md.update(p)
+        md.update_contents(p)
       }
       val sig = md.digest().nn.toSeq.map(b => f"$b%02x").mkString
       val sig_file = testsDir / s"$test_name.sig"

@@ -3,9 +3,11 @@ package ag.grader
 import munit.FunSuite
 import munit.ScalaCheckSuite
 
+import java.security.MessageDigest
+
 import org.scalacheck.Prop._
 import scala.math.Ordering.Implicits.given
-import upickle.default._
+import upickle.default.*
 
 class StateTests extends FunSuite {
 
@@ -101,5 +103,20 @@ class TestPickle extends FunSuite {
     val b2 = read[Bob](bs)
     assert(clue(b1) == clue(b2))
   }
+}
 
+class TestMdExtensions extends ScalaCheckSuite {
+  property("Basic properties") {
+    forAll { (s:String) =>
+      val md1 = MessageDigest.getInstance("SHA1").nn
+      val out1 = md1.update_string(s).digest().nn.toSeq
+      val md2 = MessageDigest.getInstance("SHA1").nn
+      for (c <- s) md2.update_string(c.toString)
+      val out2 = md2.digest().nn.toSeq
+      assert(clue(out1) == clue(out2))
+      val md3 = md1.update_string("x")
+      val out3 = md3.digest().nn.toSeq
+      assert(clue(out3) != clue(out1))
+    }
+  }
 }

@@ -2,6 +2,23 @@ package ag.grader
 
 import upickle.default._
 
+/** A type-safe wrapper for names.
+ * Things like courses, projects, and students all have string
+ * names and one could accidentally pass a student name to something
+ * that is expecting a project name, for example.
+ * 
+ * This class provides a type-safe wrappers for names. For example, a function
+ * that expects a student name would have a signature like:
+ *
+ *      def f1(student_name: Name[Student])
+ * 
+ * instead of
+ * 
+ *      def f1(student_name: String)
+ * 
+ * Notice that using an opaque alias is more efficient than wrapping a string
+ * in a case class but those don't work well with type-classes (ReadWriter, Ordering, ...)
+ */
 case class Name[T](id: String) derives CanEqual {
   override def toString: String = id
 }
@@ -14,20 +31,3 @@ object Name {
 
   given [T]: Ordering[Name[T]] = Ordering.by(_.id)
 }
-
-/** simple wrapper around course name. This way we don't accidentally pass a
-  * project name where a course name is expected
-  */
-/*
-case class CourseId(id: String) derives CanEqual {
-  override def toString: String = id
-}
-
-object CourseId {
-  given ReadWriter[CourseId] = readwriter[String].bimap[CourseId](
-    cid => cid.id,
-    s => CourseId(s)
-  )
-  given Ordering[CourseId] = Ordering.by(_.id)
-}
- */

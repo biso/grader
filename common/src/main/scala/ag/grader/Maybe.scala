@@ -1,8 +1,19 @@
 package ag.grader
 
 import compiletime.erasedValue
+import upickle.default.*
 
-class Maybe[+A](ma: A | Null) extends AnyVal {
+/** Like Option but:
+ *     - treats null as None
+ *     - gets flattened when serialized
+ *        Maybe(10)  => 10
+ *        Maybe(null) => null
+ *
+ *        This implies loss of information; can't distinguish between
+ *            Maybe(Maybe(null)) and Maybe(null)
+ */
+
+class Maybe[+A](val ma: A | Null) extends AnyVal derives CanEqual {
 
   inline def get(): A =
     ma.nn
@@ -26,4 +37,23 @@ class Maybe[+A](ma: A | Null) extends AnyVal {
     case _: Option[A] => (if (ma == null) None else Some(ma)): Option[A]
   }
 
+  override def hashCode(): Int =
+    if (ma == null) 0 else ma.hashCode()
+
+  override def equals(other: Any): Boolean = other match {
+    case rhs: Maybe[_] => ma == rhs.ma
+    case _ => false
+  }
+
+}
+
+object Maybe {
+  given [A:ReadWriter]: ReadWriter[Maybe[A]] = readwriter[ujson.Value].bimap(
+    ma =>
+      val it = ma.ma
+      if (it == null) ujson.Null else writeJs(it), 
+    js =>
+      val t = if (js.isNull) null else read[A](js)
+      Maybe(t)
+  )
 }
