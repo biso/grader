@@ -129,12 +129,12 @@ extension (file: os.Path) {
     if (paths.forall(os.exists)) paths else Seq()
   }
 
-  def get_all_tests(p: Project): Map[String, Seq[os.Path]] = {
+  def get_all_tests(p: Project): Map[Name[Test], Seq[os.Path]] = {
     os.list(file)
       . // all directory entries
       filter(path => p.data.test_extensions.contains(path.ext))
       . // keep the ones with the correct extensions
-      groupMap(path => path.baseName)(x => x)
+      groupMap(path => Name[Test](path.baseName))(x => x)
       . // group by base name
       filter { case (_, paths) =>
         paths.length == p.data.test_extensions.length

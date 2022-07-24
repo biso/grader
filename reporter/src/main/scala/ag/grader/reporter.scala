@@ -222,7 +222,7 @@ import scala.math.Ordering.Implicits.given
             .filter(os.isDir)
             .filter(!_.last.startsWith("."))
             .map(p =>
-              p.last -> upickle.default.read[OutcomeData]((p / "summary").toNIO)
+              Name[Test](p.last) -> upickle.default.read[OutcomeData]((p / "summary").toNIO)
             )
             .toMap
 
@@ -234,7 +234,7 @@ import scala.math.Ordering.Implicits.given
             )
             .sorted
             .distinct
-            .groupBy(_.length)
+            .groupBy(_.id.length)
             .toSeq
             .map { case (len, names) => (len, names.sorted) }
             .sortBy(_._1)
@@ -256,8 +256,8 @@ import scala.math.Ordering.Implicits.given
 
           // The table headers contains links to tests
           // This function generates one of those rows
-          def testTitle(t: String, rowNum: Int)(using HtmlContext): Unit = {
-            val ch = if (rowNum >= t.length) "." else t(rowNum)
+          def testTitle(t: Name[Test], rowNum: Int)(using HtmlContext): Unit = {
+            val ch = if (rowNum >= t.id.length) "." else t.id(rowNum)
             val ext =
               if (rowNum >= testExtensions.size) testExtensions.last
               else testExtensions(rowNum)
@@ -303,7 +303,7 @@ import scala.math.Ordering.Implicits.given
 
             /* the actual results, one row per submission */
             submissions.foreach { s =>
-              val short_name = s.take(8)
+              val short_name = s.id.take(8)
               val outcome = outcomes(s)
 
               val raw_score =
@@ -323,7 +323,7 @@ import scala.math.Ordering.Implicits.given
 
               tr.bgcolor(if (outcome.isMine) "yellow" else null) {
                 td {
-                  pre.title(s) {
+                  pre.title(s.id) {
                     if (outcome.isLate) text(s"$short_name*")
                     else text(short_name)
                   }
@@ -369,7 +369,7 @@ import scala.math.Ordering.Implicits.given
                   chosenTestNames.foreach { test_name =>
                     tr {
                       td {
-                        text(test_name)
+                        text(test_name.id)
                       }
                       td {
                         text(project.chosen_weights(test_name).toString)
@@ -487,7 +487,7 @@ import scala.math.Ordering.Implicits.given
             os.list(resultsDir)
               .filter(_.last.endsWith(".result"))
               .map(path =>
-                path.last.replace(".result", "").nn -> os.read(path).trim().nn
+                Name[Test](path.last.replace(".result", "").nn) -> os.read(path).trim().nn
               ): _*
           )
 

@@ -301,8 +301,8 @@ import scala.collection.SortedSet
             os.list(submissionResultsDir).filter(_.last.endsWith(".result"))
           val testResults = resultFiles
             .map(path =>
-              path.segments.toList.last
-                .dropRight(7) -> os.read(path).trim.nn
+              Name[Test](path.segments.toList.last
+                .dropRight(7)) -> os.read(path).trim.nn
             )
             .toMap
           val outcome = OutcomeData(

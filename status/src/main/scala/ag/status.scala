@@ -38,7 +38,7 @@ import upickle.default.*
     // the lights for which project mappings exist
     l <- projectNameToLight.get(p.fullName).toList
   } {
-    val chosen = p.data.chosen.toSet
+    val chosen = p.data.chosen.map(Name[Test].apply).toSet
     val results = p.resultsDir
 
     var happy = 0.0

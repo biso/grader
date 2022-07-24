@@ -39,15 +39,15 @@ class Project(val name: String, val course: Course, val data: ProjectData) {
     }
   }
 
-  def isBadTest(testName: String): Boolean = data.bad_tests.contains(testName)
+  def isBadTest(testName: Name[Test]): Boolean = data.bad_tests.contains(testName.id)
 
-  lazy val chosen_weights: Map[String, Double] = (for {
+  lazy val chosen_weights: Map[Name[Test], Double] = (for {
     test_name <- data.chosen
     w = data.weights.find(w => w.regex.matches(test_name)).get.weight
-  } yield (test_name, w)).to(Map)
+  } yield (Name[Test](test_name), w)).to(Map)
 
-  def isChosen(fullTestName: String): Boolean = {
-    val x = fullTestName.split('_')
+  def isChosen(fullTestName: Name[Test]): Boolean = {
+    val x = fullTestName.id.split('_')
     chosenAliases.contains(x(0))
   }
 
@@ -217,7 +217,7 @@ class Project(val name: String, val course: Course, val data: ProjectData) {
       students: Iterable[Name[Student]]
   )(using World): Unit throws ShellException = {
     val config = Config.get()
-    def copy_one_test(test_name: String, paths: Seq[os.Path]) = {
+    def copy_one_test(test_name: Name[Test], paths: Seq[os.Path]) = {
       val md = MessageDigest.getInstance("MD5").nn
       for {
         p <- paths.sortBy(_.last)
@@ -304,7 +304,7 @@ class Project(val name: String, val course: Course, val data: ProjectData) {
                   // found student test files, let's compute a signature
 
                   val alias = getStudentAlias(s)
-                  copy_one_test(alias, test_paths)
+                  copy_one_test(Name[Test](alias), test_paths)
                 }
               }
             }

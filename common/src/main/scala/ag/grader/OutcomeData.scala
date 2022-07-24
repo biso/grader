@@ -4,7 +4,7 @@ import upickle.default._
 
 /** results from a run */
 case class OutcomeData(
-    tests: Map[String, String],
+    tests: Map[Name[Test], String],
     isLate: Boolean = false,
     spamon: Boolean = true,
     isMine: Boolean = false
