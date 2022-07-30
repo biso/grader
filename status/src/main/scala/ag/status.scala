@@ -79,9 +79,9 @@ import upickle.default.*
       // Only look at chosen tests
       if chosen(test_name)
     } yield {
-      if (outcome == "pass") {
+      if (outcome == Result.PASS) {
         happy += 1
-      } else if (outcome == "fail") {
+      } else if (outcome == Result.FAIL) {
         sad += 1
       }
     }

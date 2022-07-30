@@ -29,5 +29,8 @@ object Name {
     s => Name[T](s)
   )
 
+  inline def self[A](using nm: sourcecode.Name): Name[A] =
+    Name[A](nm.value)
+
   given [T]: Ordering[Name[T]] = Ordering.by(_.id)
 }

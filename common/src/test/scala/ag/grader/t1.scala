@@ -105,6 +105,13 @@ class TestPickle extends FunSuite {
   }
 }
 
+class TestSelf extends FunSuite {
+  test("self") {
+    val x = Name.self[Any]
+    assert(clue(x.id) == ("x"))
+  }
+}
+
 class TestMdExtensions extends ScalaCheckSuite {
   property("Basic properties") {
     forAll { (s:String) =>
